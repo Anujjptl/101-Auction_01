@@ -21,6 +21,7 @@ public class Auction
     {
         listOfLots = new ArrayList<>();
         nextLotNumber = 1;
+        
     }
 
     /**
@@ -55,8 +56,7 @@ public class Auction
     {
         Lot selectedLot = getLot(lotNumber);
         if(selectedLot != null) {
-            Bid aBid = new Bid(bidder, value);
-            boolean successful = selectedLot.bidFor(aBid);
+            boolean successful = selectedLot.bidFor(new Bid(bidder, value));
             if(successful) {
                 System.out.println("The bid for lot number " +
                                    lotNumber + " was successful.");
@@ -100,5 +100,41 @@ public class Auction
             return null;
         }
     }
+    
+    public void close(){
+        for (Lot lot : listOfLots) { //“for each Lot object inside the listOfLots
+                                    //ArrayList, call it lot for this loop step.”
+            Bid highest = lot.getHighestBid();
+            
+            if (highest != null) {  // “does highest refer to a real object, 
+                                    //or is it empty (null)?”
+                //sold 
+                System.out.println(
+                "Lot " + lot.getNumber() +
+                " \"" + lot.getDescription() + "\"" +
+                " sold to " + highest.getBidder().getName() +
+                " for " + highest.getValue()
+                    );
+            } else {
+                // no bid 
+                System.out.println(
+                "Lot " + lot.getNumber() +
+                " \"" + lot.getDescription() + "\"" +
+                " has no bids.");
+            }
+        }
+    }
+    
+    public ArrayList<Lot> getUnsold() {
+    ArrayList<Lot> unsoldLots = new ArrayList<>();
+    
+    for (Lot lot : listOfLots){
+        if (lot.getHighestBid() == null) {
+            unsoldLots.add(lot);
+        }
+    }
+    return unsoldLots;
+    }
 }
+
 
