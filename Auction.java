@@ -79,27 +79,18 @@ public class Auction
      */
     public Lot getLot(int lotNumber)
     {
-        if((lotNumber >= 1) && (lotNumber < nextLotNumber)) {
-            // The number seems to be reasonable.
-            Lot selectedLot = listOfLots.get(lotNumber - 1);
-            // Include a confidence check to be sure we have the
-            // right lot.
-            if(selectedLot.getNumber() != lotNumber) {
+        for (Lot lot : listOfLots) { // goes through every Lot in the list
+        if(lot.getNumber() == lotNumber) { //reads the lotNumber field inside the lot.
+            return lot; // found it, return immediately 
+                }
+            }
                 System.out.println("Internal error: Lot number " +
-                                   selectedLot.getNumber() +
+                                   lotNumber +
                                    " was returned instead of " +
                                    lotNumber);
-                // Don't return an invalid lot.
-                selectedLot = null;
-            }
-            return selectedLot;
-        }
-        else {
-            System.out.println("Lot number: " + lotNumber +
-                               " does not exist.");
-            return null;
-        }
+                return null;   // no lot with that number found
     }
+    
     
     public void close(){
         for (Lot lot : listOfLots) { //“for each Lot object inside the listOfLots
