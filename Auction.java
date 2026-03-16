@@ -126,6 +126,16 @@ public class Auction
     }
     return unsoldLots;
     }
+    
+    public Lot removeLot(int number)
+    {
+    Lot lot = getLot(number);    // use your new search-based getLot
+    if (lot != null) {
+        listOfLots.remove(lot);  // remove that Lot object from the list
+    }
+    return lot;                  // will be null if not found
+    }
+
 }
 
 
